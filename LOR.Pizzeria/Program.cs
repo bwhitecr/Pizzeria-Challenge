@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace LOR.Pizzeria
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Console.WriteLine("Welcome to LOR Pizzeria! Please select the store location: Brisbane OR Sydney");
             var Store = Console.ReadLine();
