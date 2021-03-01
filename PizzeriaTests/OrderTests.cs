@@ -1,9 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 using FluentAssertions;
 
-using Microsoft.VisualStudio.TestPlatform.TestHost;
+using LOR.Pizzeria.Application;
+using LOR.Pizzeria.Application.Interfaces;
+using LOR.Pizzeria.Application.Ordering;
+
+using Moq.AutoMock;
 
 using NUnit.Framework;
 
@@ -11,6 +16,18 @@ namespace PizzeriaTests
 {
     public class OrderTests
     {
+        private class FakeConsoleWriter : IConsoleWriter
+        {
+            private readonly List<string> _output = new ();
+            
+            public void WriteLine(string text)
+            {
+                _output.Add(text);
+            }
+
+            public IReadOnlyList<string> Output => _output;
+        }
+        
         [TestCase("Brisbane", "Capriciosa", 20)]
         [TestCase("Brisbane", "Florenza", 21)]
         [TestCase("Brisbane", "Margherita", 22)]
@@ -24,11 +41,24 @@ namespace PizzeriaTests
             var input = new StringReader(store+Environment.NewLine+pizza+Environment.NewLine);
             Console.SetIn(input);
 
-            LOR.Pizzeria.Program.Main(Array.Empty<string>());
+            var mocker = new AutoMocker();
+            mocker.Setup<IPizzaSelector, string>(x => x.GetStoreName())
+                .Returns(store);
+            mocker.Setup<IPizzaSelector, string>(x => x.GetPizzaName())
+                .Returns(pizza);
+
+            var writer = new FakeConsoleWriter();
+
+            mocker.Use<IConsoleWriter>(writer);
+
+            var order = mocker.Get<PizzaOrder>();
+            
+            order.PlaceOrder();
 
             var receipt = "Total price: " + price;
 
-            output.ToString().Should().Contain(receipt);
+            writer.Output.Should().NotBeEmpty();
+            writer.Output.Should().Contain(receipt);
         }
     }
 }

@@ -5,4 +5,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LOR.Pizzeria.Domain\LOR.Pizzeria.Domain.csproj" />
+    <ProjectReference Include="..\LOR.Pizzeria.Infrastructure\LOR.Pizzeria.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
