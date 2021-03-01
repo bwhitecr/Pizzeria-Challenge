@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace LOR.Pizzeria.Domain
+namespace LOR.Pizzeria.Domain.Entities
 {
     public class Pizza
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public List<string> Ingredients { get; set; } = new List<string>();
         public decimal BasePrice { get; set; }

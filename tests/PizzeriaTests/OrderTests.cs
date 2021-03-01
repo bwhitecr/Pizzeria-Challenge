@@ -7,6 +7,7 @@ using FluentAssertions;
 using LOR.Pizzeria.Application;
 using LOR.Pizzeria.Application.Interfaces;
 using LOR.Pizzeria.Application.Ordering;
+using LOR.Pizzeria.Infrastructure.Persistence;
 
 using Moq.AutoMock;
 
@@ -50,10 +51,11 @@ namespace PizzeriaTests
             var writer = new FakeConsoleWriter();
 
             mocker.Use<IConsoleWriter>(writer);
+            mocker.Use<IApplicationDbContext>(new DefaultDbContext());
 
             var order = mocker.Get<PizzaOrder>();
             
-            order.PlaceOrder();
+            order!.PlaceOrder();
 
             var receipt = "Total price: " + price;
 
