@@ -1,6 +1,5 @@
-﻿using LOR.Pizzeria.Application.Ordering;
-using LOR.Pizzeria.Infrastructure;
-using LOR.Pizzeria.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace LOR.Pizzeria
 {
@@ -8,10 +7,14 @@ namespace LOR.Pizzeria
     {
         public static void Main(string[] args)
         {
-            var consoleAdapter = new SystemConsoleAdapter();
-            var dbContext = new DefaultDbContext();
-            var order = new PizzaOrder(consoleAdapter, consoleAdapter, dbContext);
-            order.PlaceOrder();
+            CreateHostBuilder(args).Build().Run();
         }
+
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }

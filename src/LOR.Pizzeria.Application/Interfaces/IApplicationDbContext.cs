@@ -6,7 +6,7 @@ namespace LOR.Pizzeria.Application.Interfaces
 {
     public interface IApplicationDbContext
     {
-        IQueryable<Store> Stores { get; }
+        IQueryable<Domain.Entities.Store> Stores { get; }
         IQueryable<Recipe> Recipes { get; }
     }
 }

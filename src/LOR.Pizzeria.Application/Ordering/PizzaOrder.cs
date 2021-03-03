@@ -46,7 +46,7 @@ namespace LOR.Pizzeria.Application.Ordering
             _writer.WriteLine("\nYour pizza is ready!");
         }
 
-        private void PrintStoreMenu(Store store)
+        private void PrintStoreMenu(Domain.Entities.Store store)
         {
             _writer.WriteLine("MENU");
 
