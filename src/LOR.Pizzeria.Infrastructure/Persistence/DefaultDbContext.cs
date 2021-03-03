@@ -64,6 +64,11 @@ namespace LOR.Pizzeria.Infrastructure.Persistence
                 Id = Guid.NewGuid().ToString(),
                 Name = "chicken" 
             },
+            new Topping
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "mozzarella" 
+            },
         };
 
         static DefaultDbContext()
@@ -80,7 +85,7 @@ namespace LOR.Pizzeria.Infrastructure.Persistence
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Capriciosa",
-                    Toppings = GetToppings("mushrooms", "cheese", "ham", "mozarella"),
+                    Toppings = GetToppings("mushrooms", "cheese", "ham", "mozzarella"),
                     PreparationInstructions = new List<string>
                     {
                         "Baking pizza for 30 minutes at 200 degrees...",
@@ -92,7 +97,7 @@ namespace LOR.Pizzeria.Infrastructure.Persistence
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Florenza",
-                    Toppings = GetToppings("olives", "pastrami", "mozarella", "onion"),
+                    Toppings = GetToppings("olives", "pastrami", "mozzarella", "onion"),
                     PreparationInstructions = new List<string>
                     {
                         "Baking pizza for 30 minutes at 200 degrees...",
@@ -104,7 +109,7 @@ namespace LOR.Pizzeria.Infrastructure.Persistence
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = "Margherita",
-                    Toppings = GetToppings("mozarella", "onion", "garlic", "oregano"),
+                    Toppings = GetToppings("mozzarella", "onion", "garlic", "oregano"),
                     PreparationInstructions = new List<string>
                     {
                         "Baking pizza for 15 minutes at 200 degrees...",
@@ -128,6 +133,7 @@ namespace LOR.Pizzeria.Infrastructure.Persistence
             
             static List<Topping> GetToppings(params string[] names)
                 => _toppings.Join(names, x => x.Name, n => n, (x, _) => x)
+                    .OrderBy(x => x.Name)
                     .ToList();
         }
 

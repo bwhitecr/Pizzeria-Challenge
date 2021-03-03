@@ -32,7 +32,7 @@ namespace LOR.Pizzeria.Controllers
         [HttpGet]
         public async Task<IEnumerable<StoreDto>> Get()
         {
-            return await _mediator.Send(GetStoresQuery.Instance, CancellationToken.None);
+            return await _mediator.Send(GetStores.Instance, CancellationToken.None);
         }
     }
 }

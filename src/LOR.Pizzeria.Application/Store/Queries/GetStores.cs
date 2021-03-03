@@ -10,29 +10,32 @@ using MediatR;
 
 namespace LOR.Pizzeria.Application.Store.Queries
 {
-     public sealed class GetStoresQuery: IRequest<List<StoreDto>>
+     public sealed class GetStores: IRequest<List<StoreDto>>
      {
-         private static GetStoresQuery? _instance;
+         private static GetStores? _instance;
          
-         public static GetStoresQuery Instance => _instance ??= new GetStoresQuery();
+         public static GetStores Instance => _instance ??= new GetStores();
      }
 
-     internal sealed class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, List<StoreDto>>
+     internal sealed class GetStoresHandler : IRequestHandler<GetStores, List<StoreDto>>
      {
          private readonly IApplicationDbContext _applicationDbContext;
 
-         public GetStoresQueryHandler(IApplicationDbContext applicationDbContext)
+         public GetStoresHandler(IApplicationDbContext applicationDbContext)
          {
              _applicationDbContext = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
          }
          
-         public Task<List<StoreDto>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
+         public Task<List<StoreDto>> Handle(GetStores request, CancellationToken cancellationToken)
          {
-             var stores = _applicationDbContext.Stores.Select(x => new StoreDto
+             var stores = _applicationDbContext.Stores
+                 .Select(x => new StoreDto
              {
                  StoreId = x.Id,
                  StoreName = x.Name
-             }).ToList();
+             })
+                 .OrderBy(x => x.StoreName)
+                 .ToList();
              return Task.FromResult(stores);
          }
      }
